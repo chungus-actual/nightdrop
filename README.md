@@ -93,7 +93,7 @@ stateDiagram-v2
     [*] --> Reels: silence, and reels exist
     Visuals --> Reels: paused for 20 s
     Reels --> Visuals: music starts
-    Reels --> Reels: every sceneMinutes, another reel
+    Reels --> Reels: next reel
 ```
 
 ## Install
