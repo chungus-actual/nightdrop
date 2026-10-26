@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="336" viewBox="0 0 960 336" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif" role="img">
+<defs>
+<marker id="arrow-base" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1,1.2 L9,5 L1,8.8 Q2.6,5 1,1.2 Z" fill="#656c76"/></marker>
+<marker id="arrow-teal" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1,1.2 L9,5 L1,8.8 Q2.6,5 1,1.2 Z" fill="#3fd0c8"/></marker>
+<marker id="arrow-amber" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1,1.2 L9,5 L1,8.8 Q2.6,5 1,1.2 Z" fill="#e3b277"/></marker>
+<marker id="arrow-violet" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1,1.2 L9,5 L1,8.8 Q2.6,5 1,1.2 Z" fill="#b79cff"/></marker>
+<marker id="arrow-rose" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M1,1.2 L9,5 L1,8.8 Q2.6,5 1,1.2 Z" fill="#ff7a9c"/></marker>
+<filter id="lift" x="-10%" y="-10%" width="120%" height="140%"><feDropShadow dx="0" dy="1.5" stdDeviation="2" flood-color="#000000" flood-opacity="0.45"/></filter>
+</defs>
+<path d="M180.0,147.0 C252.9,147.0 257.1,86.0 328.0,86.0" fill="none" stroke="#656c76" stroke-width="1.6" marker-end="url(#arrow-base)"/>
+<path d="M180.0,147.0 C256.3,147.0 253.7,226.0 328.0,226.0" fill="none" stroke="#656c76" stroke-width="1.6" marker-end="url(#arrow-base)"/>
+<path d="M399.0,132.0 C399.0,160.0 399.0,152.0 399.0,178.0" fill="none" stroke="#656c76" stroke-width="1.6" marker-end="url(#arrow-base)"/>
+<path d="M491.0,180.0 C491.0,152.0 491.0,160.0 491.0,134.0" fill="none" stroke="#656c76" stroke-width="1.6" marker-end="url(#arrow-base)"/>
+<path d="M405.9,272 C405.9,307.2 484.1,307.2 484.1,272" fill="none" stroke="#3fd0c8" stroke-width="1.6" marker-end="url(#arrow-teal)"/>
+<path d="M560.0,86.0 C626.3,86.0 633.7,132.2 698.0,132.2" fill="none" stroke="#656c76" stroke-width="1.6" stroke-dasharray="4 4" marker-end="url(#arrow-base)"/>
+<path d="M560.0,226.0 C629.3,226.0 630.7,161.8 698.0,161.8" fill="none" stroke="#656c76" stroke-width="1.6" stroke-dasharray="4 4" marker-end="url(#arrow-base)"/>
+<g filter="url(#lift)"><rect x="30" y="112" width="150" height="70" rx="11" fill="#151b23" stroke="#3d444d" stroke-width="1"/></g>
+<defs><linearGradient id="wash-start-dark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b79cff" stop-opacity="0.16"/><stop offset="1" stop-color="#b79cff" stop-opacity="0"/></linearGradient></defs>
+<rect x="30.5" y="112.5" width="149" height="44" rx="10.5" fill="url(#wash-start-dark)"/>
+<text x="105.0" y="140.0" font-size="10" font-weight="700" letter-spacing="1.3" fill="#b79cff" text-anchor="middle">SCREENSAVER</text>
+<text x="105.0" y="159.0" font-size="14.5" font-weight="600" fill="#e6edf3" text-anchor="middle">Starts</text>
+<g filter="url(#lift)"><rect x="330" y="40" width="230" height="92" rx="11" fill="#151b23" stroke="#ff7a9c" stroke-width="1.4"/></g>
+<defs><linearGradient id="wash-vis-dark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff7a9c" stop-opacity="0.16"/><stop offset="1" stop-color="#ff7a9c" stop-opacity="0"/></linearGradient></defs>
+<rect x="330.5" y="40.5" width="229" height="44" rx="10.5" fill="url(#wash-vis-dark)"/>
+<text x="445.0" y="63.0" font-size="10" font-weight="700" letter-spacing="1.3" fill="#ff7a9c" text-anchor="middle">MUSIC PLAYING</text>
+<text x="445.0" y="82.0" font-size="14.5" font-weight="600" fill="#e6edf3" text-anchor="middle">Visuals</text>
+<text x="445.0" y="100.0" font-size="12" fill="#9198a1" text-anchor="middle">a new preset each song,</text>
+<text x="445.0" y="116.0" font-size="12" fill="#9198a1" text-anchor="middle">pop facts over them</text>
+<g filter="url(#lift)"><rect x="330" y="180" width="230" height="92" rx="11" fill="#151b23" stroke="#3fd0c8" stroke-width="1.4"/></g>
+<defs><linearGradient id="wash-reels-dark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3fd0c8" stop-opacity="0.16"/><stop offset="1" stop-color="#3fd0c8" stop-opacity="0"/></linearGradient></defs>
+<rect x="330.5" y="180.5" width="229" height="44" rx="10.5" fill="url(#wash-reels-dark)"/>
+<text x="445.0" y="203.0" font-size="10" font-weight="700" letter-spacing="1.3" fill="#3fd0c8" text-anchor="middle">QUIET</text>
+<text x="445.0" y="222.0" font-size="14.5" font-weight="600" fill="#e6edf3" text-anchor="middle">Reels</text>
+<text x="445.0" y="240.0" font-size="12" fill="#9198a1" text-anchor="middle">your videos, one scene</text>
+<text x="445.0" y="256.0" font-size="12" fill="#9198a1" text-anchor="middle">looped, muted</text>
+<g filter="url(#lift)"><rect x="700" y="110" width="236" height="74" rx="11" fill="#151b23" stroke="#3d444d" stroke-width="1"/></g>
+<defs><linearGradient id="wash-plate-dark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b79cff" stop-opacity="0.16"/><stop offset="1" stop-color="#b79cff" stop-opacity="0"/></linearGradient></defs>
+<rect x="700.5" y="110.5" width="235" height="44" rx="10.5" fill="url(#wash-plate-dark)"/>
+<text x="818.0" y="132.0" font-size="10" font-weight="700" letter-spacing="1.3" fill="#b79cff" text-anchor="middle">ALWAYS ON TOP</text>
+<text x="818.0" y="151.0" font-size="14.5" font-weight="600" fill="#e6edf3" text-anchor="middle">The plate</text>
+<text x="818.0" y="169.0" font-size="12" fill="#9198a1" text-anchor="middle">time, weather, feed, the track</text>
+<text x="818" y="214" font-size="11.5" fill="#9198a1" text-anchor="middle">drifts corner to corner</text>
+<text x="818" y="230" font-size="11.5" fill="#9198a1" text-anchor="middle">every 150 s (OLED)</text>
+<rect x="204.5" y="111.6" width="89.1" height="19" rx="9" fill="#0d1117" stroke="#3d444d" stroke-width="1"/>
+<text x="249.0" y="125.1" font-size="11.5" fill="#9198a1" text-anchor="middle">music playing</text>
+<rect x="188.3" y="171.1" width="121.9" height="19" rx="9" fill="#0d1117" stroke="#3d444d" stroke-width="1"/>
+<text x="249.3" y="184.6" font-size="11.5" fill="#9198a1" text-anchor="middle">silence, reels exist</text>
+<rect x="355.6" y="146.2" width="78.9" height="19" rx="9" fill="#0d1117" stroke="#3d444d" stroke-width="1"/>
+<text x="395.0" y="159.8" font-size="11.5" fill="#9198a1" text-anchor="middle">paused 20 s</text>
+<rect x="450.7" y="146.8" width="88.6" height="19" rx="9" fill="#0d1117" stroke="#3d444d" stroke-width="1"/>
+<text x="495.0" y="160.2" font-size="11.5" fill="#9198a1" text-anchor="middle">music starts</text>
+<rect x="377.7" y="301.9" width="134.6" height="19" rx="9" fill="#0d1117" stroke="#3d444d" stroke-width="1"/>
+<text x="445.0" y="315.4" font-size="11.5" fill="#3fd0c8" text-anchor="middle">next reel every 5 min</text>
+</svg>

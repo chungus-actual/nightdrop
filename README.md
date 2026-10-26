@@ -63,18 +63,10 @@ and <code>examples/feed_server.py</code> serving <code>examples/items.json</code
 
 ## How it works
 
-```mermaid
-flowchart LR
-    out["Device audio output"] -->|"Visualizer, session 0"| tap["AudioTap<br/>64-band spectrum, waveform, beat"]
-    sess["Active media session"] --> np["NowPlaying<br/>title, artist, cover"]
-    np --> pal["Palette<br/>3 colours from the cover"]
-    tap --> ren["Renderer<br/>preset pass on two 720p<br/>feedback buffers"]
-    pal --> ren
-    np -->|"cover texture"| ren
-    ren --> comp["Composite<br/>tone map, vignette, dither"] --> tv["Screen"]
-    feed[("Your feed server")] -->|"/ambient"| plate["Plate: time, weather, headlines"]
-    feed -->|"/popfacts"| pops["Pop fact cards"]
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/diagrams/how-it-works-dark.svg">
+  <img src="docs/img/diagrams/how-it-works-light.svg" alt="How Nightdrop works: the device audio output feeds AudioTap, the media session feeds the palette, both drive the renderer, whose output feeds back into itself at 720p before the composite pass draws it on the TV; an optional feed server supplies the plate and the pop facts">
+</picture>
 
 Each preset is one fragment shader. It reads the previous frame, moves it a little (zoom, turn,
 drift, all driven by the audio), lets it fade, and draws something new on top; the trails and
@@ -86,15 +78,10 @@ breathes instead of freezing on the last trail.
 
 **The screensaver** picks its backdrop by what the room is doing:
 
-```mermaid
-stateDiagram-v2
-    direction LR
-    [*] --> Visuals: music playing
-    [*] --> Reels: silence, and reels exist
-    Visuals --> Reels: paused for 20 s
-    Reels --> Visuals: music starts
-    Reels --> Reels: next reel
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/img/diagrams/screensaver-dark.svg">
+  <img src="docs/img/diagrams/screensaver-light.svg" alt="The screensaver: visuals while music plays, reels when it is quiet, switching after 20 s of pause or when music starts, the next reel every 5 minutes, and the plate always on top, moving corner to corner every 150 s">
+</picture>
 
 ## Install
 
