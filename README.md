@@ -21,10 +21,22 @@ art, a new scene with every song, and a screensaver that knows whether the room 
 
 ---
 
+## On the TV
+
+<img src="docs/img/screens/screensaver-petals.jpg" width="100%" alt="The screensaver: Petals behind a plate with the time, weather, three headlines and the playing track, and a pop fact card" />
+
+| | |
+|:---:|:---:|
+| <img src="docs/img/screens/screensaver-shards.jpg" width="100%" alt="The screensaver over Shards" /><br><sub>The screensaver while music plays: Shards cut from the cover, the plate, a pop fact</sub> | <img src="docs/img/screens/screensaver-reels.jpg" width="100%" alt="The screensaver over a reel" /><br><sub>The music stops: after 20 s a reel takes over behind the plate</sub> |
+| <img src="docs/img/screens/app-track.jpg" width="100%" alt="The app with a track card over Tunnel" /><br><sub>The app: a track card on each new song</sub> | <img src="docs/img/screens/app-popfact.jpg" width="100%" alt="A pop fact card over Tunnel" /><br><sub>A pop fact, tinted from the cover</sub> |
+
+<sub>Captured on an NVIDIA SHIELD TV Pro: a made-up track (The Demo Tapes, sine waves and a generated cover)
+and <code>examples/feed_server.py</code> serving <code>examples/items.json</code> and <code>examples/facts.json</code>.</sub>
+
 ## Contents
 
-[Features](#features) · [The presets](#the-presets) · [How it works](#how-it-works) · [Install](#install) ·
-[Configure](#configure) · [The feed](#the-feed) · [Reels](#reels) · [Build](#build) ·
+[On the TV](#on-the-tv) · [Features](#features) · [The presets](#the-presets) · [How it works](#how-it-works) ·
+[Install](#install) · [Configure](#configure) · [The feed](#the-feed) · [Reels](#reels) · [Build](#build) ·
 [Writing a preset](#writing-a-preset) · [Troubleshooting](#troubleshooting) · [License](#license)
 
 ## Features
@@ -92,7 +104,7 @@ USB debugging or network debugging.
 
 ```sh
 adb connect <tv-ip>:5555
-adb install nightdrop-0.1.0.apk
+adb install nightdrop-0.1.1.apk
 ```
 
 | Step | How |
@@ -166,13 +178,15 @@ shapes in **[docs/feed.md](docs/feed.md)**.
 No server yet? The example needs only Python:
 
 ```sh
-python3 examples/feed_server.py --items examples/items.json --lat 40.71 --lon -74.01 --wikipedia
+python3 examples/feed_server.py --items examples/items.json --facts examples/facts.json \
+    --lat 40.71 --lon -74.01 --wikipedia
 ```
 
 | Flag | Gives you |
 |---|---|
 | `--items file.json` | your own headlines; edit the file and the next poll picks them up |
 | `--lat`, `--lon`, `--units f\|c` | current weather from [Open-Meteo](https://open-meteo.com) (no key) |
+| `--facts file.json` | your own pop facts, keyed `"artist\|title"`, `"artist\|*"` or `"*"` ([example](examples/facts.json)) |
 | `--wikipedia` | pop facts: up to three sentences about the artist from Wikipedia |
 | `--token`, `--cert`, `--key` | a bearer token and https |
 

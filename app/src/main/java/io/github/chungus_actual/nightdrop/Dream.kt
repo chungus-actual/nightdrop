@@ -62,6 +62,7 @@ class Dream : DreamService() {
     private lateinit var feed: LinearLayout
     private lateinit var playing: LinearLayout
     private lateinit var playArt: ImageView
+    private lateinit var playWords: LinearLayout
     private lateinit var playTitle: TextView
     private lateinit var playArtist: TextView
     private lateinit var pops: PopFacts
@@ -309,13 +310,13 @@ class Dream : DreamService() {
             visibility = View.GONE
         }
         playArt = ImageView(this).apply { scaleType = ImageView.ScaleType.CENTER_CROP }
-        val words = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
+        playWords = LinearLayout(this).apply { orientation = LinearLayout.VERTICAL }
         playTitle = text(19f, BONE, "sans-serif-medium")
         playArtist = text(16f, TEAL, "sans-serif")
-        words.addView(playTitle, wrap())
-        words.addView(playArtist, wrap())
+        playWords.addView(playTitle, wrap())
+        playWords.addView(playArtist, wrap())
         playing.addView(playArt, LinearLayout.LayoutParams(dp(60), dp(60)).apply { marginEnd = dp(16) })
-        playing.addView(words, wrap())
+        playing.addView(playWords, wrap())
 
         plate.addView(clock, wrap())
         plate.addView(day, wrap().apply { topMargin = dp(2) })
@@ -327,7 +328,7 @@ class Dream : DreamService() {
     /** Into the current corner, a little off the last spot so no pixel holds the same glyph for long. */
     private fun place() {
         val g = ANCHORS[anchor]
-        val end = g and Gravity.HORIZONTAL_GRAVITY_MASK == Gravity.END
+        val end = isEnd()
         val lp = plate.layoutParams as FrameLayout.LayoutParams
         lp.gravity = g
         val mx = dp(8 + Random.nextInt(28))
@@ -337,12 +338,41 @@ class Dream : DreamService() {
         val align = if (end) Gravity.END else Gravity.START
         plate.gravity = align
         feed.gravity = align
-        for (i in 0 until feed.childCount) (feed.getChildAt(i) as? TextView)?.gravity = align
         clock.gravity = align
         day.gravity = align
-        // the art sits on the outer edge: left in a left corner, right in a right one
-        playing.layoutDirection = if (end) View.LAYOUT_DIRECTION_RTL else View.LAYOUT_DIRECTION_LTR
+        // the art sits on the outer edge: left in a left corner, right in a right one (moved by hand:
+        // a layout direction of RTL is ignored in an app that does not declare RTL support)
+        playing.removeView(playArt)
+        playing.addView(playArt, if (end) 1 else 0, LinearLayout.LayoutParams(dp(60), dp(60)).apply {
+            if (end) marginStart = dp(16) else marginEnd = dp(16)
+        })
+        playWords.gravity = align
         for (v in listOf(playTitle, playArtist)) v.gravity = align
+        fit()   // the feed again, aligned for this corner and sized for these margins
+    }
+
+    /** A right-hand corner? (Gravity.END carries the relative bit, which HORIZONTAL_GRAVITY_MASK drops.) */
+    private fun isEnd() = ANCHORS[anchor] and Gravity.END == Gravity.END
+
+    /**
+     * The feed, with items dropped from the end until the plate fits the screen. A full plate (three
+     * items with sub-lines and the track) is nearly a 1080p screen tall, and the corner's margins then
+     * squeezed it: the last row, the track, was cut in half.
+     */
+    private fun fit() {
+        val root = plate.parent as? View ?: return
+        if (!root.isLaidOut) { root.post { fit() }; return }
+        val lp = plate.layoutParams as FrameLayout.LayoutParams
+        val room = root.height - lp.topMargin - lp.bottomMargin
+        val all = ambient?.items.orEmpty().take(cfg.plateItems)
+        var n = all.size
+        while (true) {
+            fillFeed(all.take(n))
+            plate.measure(View.MeasureSpec.makeMeasureSpec(root.width, View.MeasureSpec.AT_MOST),
+                          View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED))
+            if (plate.measuredHeight <= room || n == 0) break
+            n--
+        }
     }
 
     private fun drawClock() {
@@ -369,10 +399,12 @@ class Dream : DreamService() {
 
     private fun drawFeed() {
         drawClock()
+        fit()
+    }
+
+    private fun fillFeed(items: List<Feed.Item>) {
         feed.removeAllViews()
-        val items = ambient?.items.orEmpty().take(cfg.plateItems)
-        val end = ANCHORS[anchor] and Gravity.HORIZONTAL_GRAVITY_MASK == Gravity.END
-        val align = if (end) Gravity.END else Gravity.START
+        val align = if (isEnd()) Gravity.END else Gravity.START
         items.forEachIndexed { i, it ->
             val hero = i == 0 && it.tier == 1
             val kick = text(13f, toneColor(it.tone), "sans-serif-condensed").apply {
@@ -401,14 +433,14 @@ class Dream : DreamService() {
     private fun drawPlaying() {
         val t = track
         if (t == null || !t.playing || t.title.isEmpty()) {
-            playing.visibility = View.GONE
+            if (playing.visibility != View.GONE) { playing.visibility = View.GONE; fit() }
             return
         }
         playTitle.text = t.title
         playArtist.text = t.artist
         if (t.art != null) { playArt.setImageBitmap(t.art); playArt.visibility = View.VISIBLE }
         else playArt.visibility = View.GONE
-        playing.visibility = View.VISIBLE
+        if (playing.visibility != View.VISIBLE) { playing.visibility = View.VISIBLE; fit() }
     }
 
     private fun toneColor(tone: String) = when (tone) {

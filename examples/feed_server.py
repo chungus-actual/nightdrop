@@ -1,12 +1,13 @@
 """A small feed server for Nightdrop (and the Couchy fork's feed line). Python 3.9+, standard library only.
 
     python3 feed_server.py --items items.json --lat 40.71 --lon -74.01 --wikipedia
-    python3 feed_server.py --port 8891 --cert cert.pem --key key.pem --token s3cret
+    python3 feed_server.py --facts facts.json --port 8891 --cert cert.pem --key key.pem --token s3cret
 
 GET /ambient    the plate: your items (a JSON file, re-read when it changes) and the weather from
                 Open-Meteo (free, no key) when --lat/--lon are given
-GET /popfacts   pop facts for ?title=&artist=&album=: up to three sentences about the artist from
-                Wikipedia when --wikipedia is on, else none
+GET /popfacts   pop facts for ?title=&artist=&album=: your own from --facts (a JSON object keyed
+                "artist|title", "artist|*" or "*", re-read when it changes) first, then up to three
+                sentences about the artist from Wikipedia when --wikipedia is on
 
 docs/feed.md has the shapes. This is a starting point: a real one would read your calendar, your
 home automation, your listening history. Only GET requests come in; with --token, a request without
@@ -48,6 +49,7 @@ class Feed:
         self.items, self.items_mtime = [], None
         self.weather, self.weather_at = {}, 0.0
         self.wiki = {}          # artist -> (time, facts)
+        self.facts, self.facts_mtime = {}, None
 
     def ambient(self):
         return {"items": self._items(), "weather": self._weather()}
@@ -92,13 +94,41 @@ class Feed:
         return wx
 
     def popfacts(self, title, artist, album):
+        mine = self._own_facts(title, artist)
         if not self.args.wikipedia or not artist:
-            return {"facts": [], "pending": False}
+            return {"facts": mine, "pending": False}
+        return {"facts": mine + self._wikipedia(artist), "pending": False}
+
+    def _own_facts(self, title, artist):
+        """--facts: {"artist|title": [...], "artist|*": [...], "*": [...]}, keys case-insensitive; each
+        fact a string (kind trivia) or {"kind", "label", "text"}."""
+        p = self.args.facts
+        if not p or not p.is_file():
+            return []
+        m = p.stat().st_mtime
+        with self.lock:
+            if m != self.facts_mtime:
+                try:
+                    raw = json.loads(p.read_text(encoding="utf-8"))
+                    self.facts = {str(k).lower(): v for k, v in raw.items() if isinstance(v, list)}
+                    self.facts_mtime = m
+                except (OSError, ValueError, AttributeError) as e:
+                    print(f"facts: {e}")
+            table = self.facts
+        out = []
+        for key in (f"{artist}|{title}", f"{artist}|*", "*"):
+            for f in table.get(key.lower(), []):
+                f = {"text": f} if isinstance(f, str) else f
+                if isinstance(f, dict) and f.get("text"):
+                    out.append({"kind": str(f.get("kind", "trivia")), "label": str(f.get("label", "")), "text": str(f["text"])})
+        return out
+
+    def _wikipedia(self, artist):
         key = artist.lower()
         with self.lock:
             hit = self.wiki.get(key)
         if hit and time.time() - hit[0] < 86400:
-            return {"facts": hit[1], "pending": False}
+            return hit[1]
         facts = []
         for page in (artist, f"{artist} (band)", f"{artist} (musician)", f"{artist} (singer)"):
             try:
@@ -113,7 +143,7 @@ class Feed:
             break
         with self.lock:
             self.wiki[key] = (time.time(), facts)
-        return {"facts": facts, "pending": False}
+        return facts
 
 
 def handler(feed, token):
@@ -150,6 +180,7 @@ def main():
     ap.add_argument("--lat", type=float)
     ap.add_argument("--lon", type=float)
     ap.add_argument("--units", choices=["f", "c"], default="f")
+    ap.add_argument("--facts", type=Path, help="your own pop facts (see facts.json)")
     ap.add_argument("--wikipedia", action="store_true", help="pop facts about the artist from Wikipedia")
     ap.add_argument("--token", help="require this bearer token")
     ap.add_argument("--cert", help="serve https with this certificate (PEM)")
