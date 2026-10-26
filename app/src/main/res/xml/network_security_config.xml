@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nightdrop fetches one thing: the feed server in nightdrop.json, if there is one. Plain http is
+     allowed because most feed servers live on a home LAN; for anything else use https. A CA named in
+     the config is the only one trusted for the feed (Feed.trusting): the system store is not consulted
+     for that connection. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

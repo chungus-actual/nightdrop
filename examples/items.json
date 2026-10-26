@@ -1,0 +1,5 @@
+[
+  {"kicker": "Calendar", "headline": "Dinner with the neighbours at 7", "sub": "their place", "tone": "live", "tier": 1},
+  {"kicker": "Bins", "headline": "Recycling goes out tonight", "tone": "needs", "tier": 2},
+  {"kicker": "Garden", "headline": "Tomatoes need water", "sub": "soil 18% at 6 pm", "tier": 3}
+]

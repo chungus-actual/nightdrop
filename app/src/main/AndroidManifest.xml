@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nightdrop. It hears the device's audio output and reads the playing app's media session. Its only
+     network use is the optional feed server named in nightdrop.json (Config.kt): GET requests, nothing
+     it learns is sent anywhere. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-feature android:name="android.software.leanback" android:required="false" />
+    <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+    <uses-feature android:glEsVersion="0x00030000" android:required="true" />
+
+    <!-- the global output-mix visualizer (audio session 0) needs both -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <!-- the feed server, when one is configured -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- the screensaver's reels (Config.reels); asked for on the app's first start -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+
+    <application
+        android:allowBackup="false"
+        android:banner="@drawable/banner"
+        android:icon="@drawable/icon"
+        android:label="Nightdrop"
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenLayout|screenSize|uiMode"
+            android:exported="true"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Only here so MediaSessionManager will list the active sessions (track, artist, album art).
+             It reads no notifications. Granted once over adb:
+             cmd notification allow_listener <package>/io.github.chungus_actual.nightdrop.MediaListener -->
+        <service
+            android:name=".MediaListener"
+            android:exported="true"
+            android:label="Nightdrop now playing"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+        <!-- The screensaver. Picked in Settings (Screen saver), or over adb:
+             settings put secure screensaver_components <package>/io.github.chungus_actual.nightdrop.Dream -->
+        <service
+            android:name=".Dream"
+            android:exported="true"
+            android:label="Nightdrop"
+            android:permission="android.permission.BIND_DREAM_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.dreams.DreamService" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>

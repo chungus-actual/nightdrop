@@ -1,0 +1,11 @@
+{
+  "feed": "https://192.0.2.10:8891",
+  "ca": "ca.pem",
+  "token": "",
+  "popFacts": true,
+  "reels": "Movies/Reels",
+  "sceneMinutes": 5,
+  "plateItems": 3,
+  "driftSeconds": 150,
+  "cycleMinutes": 6
+}
