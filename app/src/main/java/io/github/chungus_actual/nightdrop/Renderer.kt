@@ -19,13 +19,17 @@ import kotlin.math.sin
  *
  * Quiet room: when nothing has made a sound for a few seconds the inputs fall back to slow sines, so
  * the screen breathes instead of freezing on the last trail.
+ *
+ * Each preset is compiled the first time it is shown, not all of them up front: one that a driver
+ * refuses then costs only itself (its error is shown, the others still run). Leaving a preset logs
+ * the frame rate it ran at, so `adb logcat -s Nightdrop` tells whether a new one is too heavy.
  */
 class Renderer(private val audio: AudioTap) : GLSurfaceView.Renderer {
 
     @Volatile var preset = 0
     @Volatile var onError: ((String) -> Unit)? = null
 
-    private val programs = IntArray(Shaders.PRESETS.size)
+    private val programs = IntArray(Shaders.PRESETS.size)    // 0 = not compiled yet, -1 = refused
     private var composite = 0
     private val fbo = IntArray(2)
     private val tex = IntArray(2)
@@ -41,6 +45,9 @@ class Renderer(private val audio: AudioTap) : GLSurfaceView.Renderer {
     private var viewW = 1
     private var viewH = 1
     private val t0 = SystemClock.uptimeMillis()
+    private var shown = -1          // the preset the frame count below belongs to
+    private var shownFrames = 0
+    private var shownSince = 0L
 
     // what the shader sees, smoothed toward the audio
     private var bass = 0f
@@ -79,8 +86,10 @@ class Renderer(private val audio: AudioTap) : GLSurfaceView.Renderer {
         verts.put(floatArrayOf(-1f, -1f, 3f, -1f, -1f, 3f)).position(0)
         glBindBuffer(GL_ARRAY_BUFFER, tri)
         glBufferData(GL_ARRAY_BUFFER, 6 * 4, verts, GL_STATIC_DRAW)
+        // a new context: every program from the old one is gone
+        programs.fill(0)
+        locs.clear()
         try {
-            for (i in programs.indices) programs[i] = program(Shaders.VERTEX, Shaders.PRESETS[i], Shaders.NAMES[i])
             composite = program(Shaders.VERTEX, Shaders.COMPOSITE, "composite")
         } catch (e: RuntimeException) {
             Log.e(AudioTap.TAG, "shader", e)
@@ -141,8 +150,11 @@ class Renderer(private val audio: AudioTap) : GLSurfaceView.Renderer {
         glBindTexture(GL_TEXTURE_2D, audioTex)
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, AudioTap.BANDS, 2, GL_RED, GL_UNSIGNED_BYTE, audioBytes)
 
-        val p = programs[preset.coerceIn(0, programs.size - 1)]
-        if (p != 0) {
+        val i = preset.coerceIn(0, programs.size - 1)
+        if (programs[i] == 0) programs[i] = compile(i)
+        countFrame(i)
+        val p = programs[i]
+        if (p > 0) {
             glBindFramebuffer(GL_FRAMEBUFFER, fbo[1 - cur])
             glViewport(0, 0, fbW, fbH)
             glUseProgram(p)
@@ -196,6 +208,29 @@ class Renderer(private val audio: AudioTap) : GLSurfaceView.Renderer {
         }
         val target = palTarget
         for (c in 0..2) for (k in 0..2) pal[c][k] += (target[c][k] - pal[c][k]) * 0.02f
+    }
+
+    private fun compile(i: Int): Int = try {
+        val start = SystemClock.uptimeMillis()
+        program(Shaders.VERTEX, Shaders.PRESETS[i], Shaders.NAMES[i]).also {
+            Log.i(AudioTap.TAG, "${Shaders.NAMES[i]}: compiled in ${SystemClock.uptimeMillis() - start} ms")
+        }
+    } catch (e: RuntimeException) {
+        Log.e(AudioTap.TAG, "shader", e)
+        onError?.invoke(e.message ?: "shader failed")
+        -1
+    }
+
+    private fun countFrame(i: Int) {
+        val now = SystemClock.uptimeMillis()
+        if (i != shown) {
+            val secs = (now - shownSince) / 1000f
+            if (shown >= 0 && secs >= 2f) Log.i(AudioTap.TAG, "%s: %.1f fps over %.0f s".format(Shaders.NAMES[shown], shownFrames / secs, secs))
+            shown = i
+            shownFrames = 0
+            shownSince = now
+        }
+        shownFrames++
     }
 
     private val locs = HashMap<Long, Int>()

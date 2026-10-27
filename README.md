@@ -5,7 +5,7 @@
 **A music visualizer and screensaver for Android TV.**
 
 Every frame is the last one, warped a little by the music, faded, and drawn over: the feedback loop
-MilkDrop made famous, written from scratch for a TV. Eleven presets, colours pulled from the album
+MilkDrop made famous, written from scratch for a TV. Thirty-one presets, colours pulled from the album
 art, a new scene with every song, and a screensaver that knows whether the room is listening.
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue)
@@ -44,8 +44,8 @@ and <code>examples/feed_server.py</code> serving <code>examples/items.json</code
 | | |
 |---|---|
 | **Hears anything** | Taps the device's mixed audio output, so Spotify, YouTube Music, Plex or a radio app all drive it with no support from the playing app |
-| **Eleven presets** | Tunnels, a synthwave horizon, nebulae, kaleidoscopes, aurora, neon rain, ridgelines, a starfield warp, roses, ripples, stained glass |
-| **Colours from the cover** | Three colours pulled from the album art, weighted by saturation and lifted to glow on black; three presets draw the cover itself |
+| **Thirty-one presets** | Tunnels and a wormhole, a synthwave horizon, nebulae, kaleidoscopes and a mandala, aurora, neon rain, fire, fireworks, a plasma globe, a lava lamp, a spinning record, a ringed planet, a Julia set, an oscilloscope, a radar sweep, stained glass and more |
+| **Colours from the cover** | Three colours pulled from the album art, weighted by saturation and lifted to glow on black; seven presets draw the cover itself |
 | **Scene per song** | A new preset with every track; a long DJ mix moves on by itself. Left/Right or the remote's skip keys step by hand |
 | **A screensaver with two moods** | Visuals while music plays; your own looping videos when it stops. Over either, a plate with the time, date, weather and a few headlines, drifting corner to corner so an OLED never holds it |
 | **Pop facts** | Glass cards with facts about the song float over the visuals, the label and rim tinted from the cover |
@@ -59,7 +59,14 @@ and <code>examples/feed_server.py</code> serving <code>examples/items.json</code
 | <img src="docs/img/presets/tunnel.jpg" width="260" /><br>**Tunnel**<br><sub>the frame falls inward and turns; the waveform is a ring</sub> | <img src="docs/img/presets/horizon.jpg" width="260" /><br>**Horizon**<br><sub>a synthwave grid at the tempo, the cover as the sun, the spectrum as skyline</sub> | <img src="docs/img/presets/flow.jpg" width="260" /><br>**Flow**<br><sub>a nebula the frame drifts through, sparks on the beat</sub> |
 | <img src="docs/img/presets/mirror.jpg" width="260" /><br>**Mirror**<br><sub>the cover in a six-way kaleidoscope that breathes with the bass</sub> | <img src="docs/img/presets/aurora.jpg" width="260" /><br>**Aurora**<br><sub>curtains whose brightness is the spectrum</sub> | <img src="docs/img/presets/rain.jpg" width="260" /><br>**Rain**<br><sub>neon rain down dark glass, each lane its own band</sub> |
 | <img src="docs/img/presets/ridge.jpg" width="260" /><br>**Ridge**<br><sub>each frame's spectrum a new ridge; the old ones recede</sub> | <img src="docs/img/presets/warp.jpg" width="260" /><br>**Warp**<br><sub>stars born in the middle, flung out by the zoom</sub> | <img src="docs/img/presets/petals.jpg" width="260" /><br>**Petals**<br><sub>two polar roses turning against each other</sub> |
-| <img src="docs/img/presets/ripple.jpg" width="260" /><br>**Ripple**<br><sub>a still pond; every beat drops a ring</sub> | <img src="docs/img/presets/shards.jpg" width="260" /><br>**Shards**<br><sub>the cover broken into slow glass cells, each lit by its own band</sub> | |
+| <img src="docs/img/presets/ripple.jpg" width="260" /><br>**Ripple**<br><sub>a still pond; every beat drops a ring</sub> | <img src="docs/img/presets/shards.jpg" width="260" /><br>**Shards**<br><sub>the cover broken into slow glass cells, each lit by its own band</sub> | <img src="docs/img/presets/scope.jpg" width="260" /><br>**Scope**<br><sub>the waveform against itself, an XY trace on a phosphor screen</sub> |
+| <img src="docs/img/presets/plasma.jpg" width="260" /><br>**Plasma**<br><sub>the demoscene plasma, its bands pushed about by the bass</sub> | <img src="docs/img/presets/vinyl.jpg" width="260" /><br>**Vinyl**<br><sub>the cover on a record at 33, the spectrum a ring of bars</sub> | <img src="docs/img/presets/fireworks.jpg" width="260" /><br>**Fireworks**<br><sub>shells burst and fall; the trails are the feedback</sub> |
+| <img src="docs/img/presets/contour.jpg" width="260" /><br>**Contour**<br><sub>a survey map of drifting terrain; the bass raises a hill</sub> | <img src="docs/img/presets/tesla.jpg" width="260" /><br>**Tesla**<br><sub>a plasma globe, an arc for each band</sub> | <img src="docs/img/presets/wormhole.jpg" width="260" /><br>**Wormhole**<br><sub>a tunnel lined with the cover (a checkerboard without one)</sub> |
+| <img src="docs/img/presets/harp.jpg" width="260" /><br>**Harp**<br><sub>two dozen strings, each plucked by its own band</sub> | <img src="docs/img/presets/lava.jpg" width="260" /><br>**Lava**<br><sub>a lava lamp; each blob swells with its band</sub> | <img src="docs/img/presets/spiro.jpg" width="260" /><br>**Spiro**<br><sub>three spirograph pens; the gears change every 16 s</sub> |
+| <img src="docs/img/presets/planet.jpg" width="260" /><br>**Planet**<br><sub>the cover on a turning globe, its rings lit by the spectrum</sub> | <img src="docs/img/presets/flame.jpg" width="260" /><br>**Flame**<br><sub>fire fed by the spectrum, cooling through the cover's colours</sub> | <img src="docs/img/presets/moire.jpg" width="260" /><br>**Moire**<br><sub>two sets of fine rings; where they cross, the interference glows</sub> |
+| <img src="docs/img/presets/glitch.jpg" width="260" /><br>**Glitch**<br><sub>the cover in slipping strips, its colour channels pulled apart</sub> | <img src="docs/img/presets/helix.jpg" width="260" /><br>**Helix**<br><sub>a double helix turning, its rungs lit by the spectrum</sub> | <img src="docs/img/presets/mandala.jpg" width="260" /><br>**Mandala**<br><sub>the last frame folded eight ways; the waveform feeds it</sub> |
+| <img src="docs/img/presets/radar.jpg" width="260" /><br>**Radar**<br><sub>a sweep that plots the spectrum round the scope</sub> | <img src="docs/img/presets/silk.jpg" width="260" /><br>**Silk**<br><sub>the waveform as two threads streaming into ribbons</sub> | <img src="docs/img/presets/prism.jpg" width="260" /><br>**Prism**<br><sub>a triangle struck on the beat; its colours fan apart</sub> |
+| <img src="docs/img/presets/julia.jpg" width="260" /><br>**Julia**<br><sub>a Julia set riding the rim of the Mandelbrot set</sub> |  |  |
 
 ## How it works
 
@@ -91,7 +98,7 @@ USB debugging or network debugging.
 
 ```sh
 adb connect <tv-ip>:5555
-adb install nightdrop-0.1.1.apk
+adb install nightdrop-0.2.0.apk
 ```
 
 | Step | How |
@@ -228,7 +235,11 @@ Each is `COMMON` plus a `main()` that writes `o`:
 | `wave(x)`, `spec(x)` | waveform (-1 to 1) and log-spaced spectrum (0 to 2) for `x` in 0 to 1 |
 | `uBass`, `uMid`, `uTreb`, `uBeat` | smoothed band levels, and a beat pulse that decays from 1 |
 | `uC1`, `uC2`, `uC3` | the three cover colours |
-| `rot`, `hash`, `noise`, `fbm` | the usual helpers |
+| `rot`, `hash`, `noise`, `fbm`, `seg` | the usual helpers (`seg` is the distance to a line segment) |
+| `decay(c, k)`, `decaySlow(c, k)` | fade the last frame by `k` and still reach black: in an 8-bit buffer a dim pixel times 0.98 rounds back to itself, so a plain multiply leaves a grey haze. The slow one dithers half a step a frame |
+
+The feedback buffer's alpha channel is never shown, so a preset can keep its own state there. Flame
+keeps its heat in it, as `1 - heat`, so a switch to it starts cold (every other preset writes 1).
 
 Add it to `NAMES` and `PRESETS`, then render it on your desktop before you sideload anything:
 
@@ -242,6 +253,10 @@ Two lessons from a Tegra X1. `mediump` is a 16-bit float there (max 65504), so k
 anything that multiplies screen coordinates: an overflow is a NaN, and a NaN is a black wedge across
 the screen. And dynamically indexed uniform arrays past 32 entries read as zero, which is why the
 audio arrives as a 64x2 texture.
+
+Each preset is compiled the first time it is shown, so one that a driver refuses shows its error and
+the others keep working. Leaving a preset logs the frame rate it ran at (`adb logcat -s Nightdrop`).
+On a 2019 SHIELD TV Pro the twenty presets added in 0.2.0 all hold 60 fps.
 
 ## Troubleshooting
 
